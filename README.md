@@ -16,7 +16,7 @@ To install DevQuickSetup, follow these steps:
 1. Clone the repository:
 
     ```bash
-    git clone https://github.com/bumahkib/DevQuickSetup.git
+    git clone https://github.com/bumahkib7/DevQuickSetup.git
     ```
 
 2. Navigate to the cloned directory:
