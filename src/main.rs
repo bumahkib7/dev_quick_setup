@@ -1,27 +1,27 @@
 // main.rs
 
+
 mod config;
 mod cli;
 mod setup;
 mod global_config;
 
+use std::env;
 use config::Config;
 use setup::SetupService;
 use cli::SetupType;
 use global_config::CLIConfig;
 use clap::{Command};
 use std::error::Error;
-use std::process::Command as SystemCommand;
 use dialoguer::{Select, theme::ColorfulTheme};
 
 
 use crossterm::{
-    cursor::{Hide, MoveTo, Show},
-    execute,
     style::{Color, Print, ResetColor, SetForegroundColor},
     ExecutableCommand,
 };
 use std::io::{self, Write};
+use std::path::PathBuf;
 
 fn print_header(text: &str) -> io::Result<()> {
     io::stdout().execute(SetForegroundColor(Color::Cyan))?;
@@ -71,17 +71,42 @@ fn main() -> Result<(), Box<dyn Error>> {
 }
 
 fn initialize_application() -> Result<(), Box<dyn Error>> {
+    // Load or initialize the global configuration
     let _global_config = CLIConfig::load_or_init()?;
 
-    let output = SystemCommand::new("cargo")
-        .arg("build")
-        .output()?;
+    // Get the CPU architecture using Rust's standard library
+    let arch = std::env::consts::ARCH;
+    println!("Detected CPU architecture: {}", arch);
 
-    if !output.status.success() {
-        eprintln!("Failed to build the project.");
-        return Err("Build failed".into());
+    // Define the target path based on the architecture
+    let target_path = match arch {
+        "x86_64" => PathBuf::from("/usr/local/bin/devsetup"),
+        "aarch64" => PathBuf::from("/usr/local/bin/devsetup"), // Example for M1 Macs
+        _ => return Err("Unsupported architecture".into()),
+    };
+
+    // Determine the path of the current executable
+    let current_exe_path = env::current_exe()?;
+
+    // Check if the target path already exists
+    if target_path.exists() {
+        println!("devsetup is already installed.");
+        return Ok(());
     }
 
-    println!("Initialization and build complete.");
+    println!("Attempting to create a symlink for devsetup.");
+    println!("This operation might require elevated privileges.");
+
+
+    match std::os::unix::fs::symlink(&current_exe_path, &target_path) {
+        Ok(_) => println!("devsetup command installed successfully. You might need to restart your terminal."),
+        Err(ref e) if e.kind() == io::ErrorKind::PermissionDenied => {
+            println!("Permission denied. Please run the command with 'sudo' for necessary permissions.");
+            return Err("Permission denied. Rerun with sudo.".into());
+        }
+        Err(e) => return Err(e.into()),
+    }
+
     Ok(())
 }
+
