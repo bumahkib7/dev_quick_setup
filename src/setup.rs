@@ -174,7 +174,7 @@ impl<'a> SetupService<'a> {
         }
 
         self.config.update_customized(&custom_tools);
-        self.config.save("/Users/bukhari.kibuka/RustroverProjects/DevQuickSetup/src/config.json")?;
+        self.config.save()?;
 
         for tool in custom_tools {
             self.install_tool(&tool)?;
