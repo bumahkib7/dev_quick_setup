@@ -65,7 +65,6 @@ impl<'a> SetupService<'a> {
     }
 
 
-
     fn install_tool(&self, tool: &str) -> Result<(), Box<dyn Error>> {
         println!("Checking if {} is already installed...", tool);
 
@@ -182,7 +181,6 @@ impl<'a> SetupService<'a> {
 
         Ok(())
     }
-
 
 
     fn check_tool_availability(&self, tool: &str) -> Result<bool, Box<dyn Error>> {

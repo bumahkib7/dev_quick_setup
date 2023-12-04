@@ -71,24 +71,24 @@ fn main() -> Result<(), Box<dyn Error>> {
 }
 
 fn initialize_application() -> Result<(), Box<dyn Error>> {
-    // Load or initialize the global configuration
+
     let _global_config = CLIConfig::load_or_init()?;
 
-    // Get the CPU architecture using Rust's standard library
+
     let arch = std::env::consts::ARCH;
     println!("Detected CPU architecture: {}", arch);
 
-    // Define the target path based on the architecture
+
     let target_path = match arch {
         "x86_64" => PathBuf::from("/usr/local/bin/devsetup"),
         "aarch64" => PathBuf::from("/usr/local/bin/devsetup"), // Example for M1 Macs
         _ => return Err("Unsupported architecture".into()),
     };
 
-    // Determine the path of the current executable
+
     let current_exe_path = env::current_exe()?;
 
-    // Check if the target path already exists
+
     if target_path.exists() {
         println!("devsetup is already installed.");
         return Ok(());
