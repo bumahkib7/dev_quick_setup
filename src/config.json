@@ -1,0 +1,12 @@
+{
+  "basic": ["git", "curl", "wget", "tmux", "htop", "vim"],
+  "full": {
+    "languages": ["node", "python", "ruby", "go", "rust", "java", "php", "c", "c++", "c#"],
+    "text_editors": ["vscode", "sublime", "vim", "atom", "emacs", "nano", "gedit"],
+    "frameworks": ["docker", "kubernetes", "express", "django", "rails", "spring", "laravel", "flask", "react", "angular", "vue"],
+    "networking_tools": ["curl", "wget", "postman", "wireshark", "nmap", "netcat", "ngrok"],
+    "utilities": ["tmux", "htop", "git", "tree", "jq", "ffmpeg", "imagemagick", "youtube-dl", "pandoc", "ffmpeg", "imagemagick", "youtube-dl", "pandoc"],
+    "extras": ["spotify", "slack", "discord", "steam", "minecraft", "vlc", "gimp", "inkscape", "blender", "obs-studio", "kdenlive", "krita", "audacity", "openshot", "darktable", "krita", "audacity", "openshot", "darktable"]
+  },
+  "customized": []
+}
