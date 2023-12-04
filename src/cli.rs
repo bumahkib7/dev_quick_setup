@@ -10,6 +10,7 @@ pub enum SetupType {
     Customized,
 }
 
+
 // Deriving the `Parser` trait to handle command-line arguments
 #[derive(Parser)]
 #[clap(author, version, about)]
