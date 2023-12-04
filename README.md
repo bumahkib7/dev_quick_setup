@@ -34,7 +34,7 @@ To install DevQuickSetup, follow these steps:
 4. Initialize the application (this will set up `devsetup` as a global command):
 
     ```bash
-    ./target/release/dev_quick_setup init
+    sudo ./target/release/dev_quick_setup init
     ```
 
 ## Usage
