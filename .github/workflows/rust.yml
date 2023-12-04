@@ -1,4 +1,4 @@
-name: Rust
+name: Rust CI
 
 on:
   push:
@@ -15,8 +15,20 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
-    - name: Build
-      run: cargo build --verbose
-    - name: Run tests
-      run: cargo test --verbose
+      - uses: actions/checkout@v3
+
+      # Find Cargo.toml and change to its directory
+      - name: Locate Cargo.toml
+        id: find-cargo-toml
+        run: |
+          CARGO_TOML_PATH=$(find . -name 'Cargo.toml' -not -path '*/target/*')
+          CARGO_DIR=$(dirname $CARGO_TOML_PATH)
+          echo "Found Cargo.toml at $CARGO_TOML_PATH"
+          echo "##[set-output name=dir;]$(echo $CARGO_DIR)"
+      - name: Change to Cargo.toml directory
+        run: cd ${{ steps.find-cargo-toml.outputs.dir }}
+
+      - name: Build
+        run: cargo build --verbose
+      - name: Run tests
+        run: cargo test --verbose
